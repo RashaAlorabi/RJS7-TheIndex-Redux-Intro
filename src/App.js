@@ -1,18 +1,14 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
 // Data
 import authors from "./data";
 
 // Components
 import Sidebar from "./Sidebar";
 import AuthorsList from "./AuthorsList";
+import { AST_Statement } from "terser";
 
 class App extends Component {
-  state = {
-    authors: authors,
-    newAuthorId: 5
-  };
-
   addAuthor = () => {
     const newAuthor = {
       id: this.state.newAuthorId,
@@ -41,12 +37,17 @@ class App extends Component {
             <Sidebar addAuthorHandler={this.addAuthor} />
           </div>
           <div className="content col-10">
-            <AuthorsList authors={this.state.authors} />
+            <AuthorsList authors={this.props.authors} />
           </div>
         </div>
       </div>
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    authors: state.authors
+  };
+};
 
-export default App;
+export default connect(mapStateToProps)(App);
